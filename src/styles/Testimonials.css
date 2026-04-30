@@ -1,0 +1,206 @@
+/* ============================================
+   TESTIMONIALS SECTION STYLES
+   ============================================ */
+
+.testimonials {
+  background-color: var(--color-bg);
+  padding: var(--space-24) 0;
+  overflow: hidden;
+}
+
+.testimonials__header {
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
+
+.testimonials__heading {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.testimonials__subtext {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Carousel */
+.testimonials__track-wrapper {
+  overflow: hidden;
+  position: relative;
+  padding: 1rem 0;
+}
+
+.testimonials__track-wrapper::before,
+.testimonials__track-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.testimonials__track-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-bg), transparent);
+}
+
+.testimonials__track-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-bg), transparent);
+}
+
+.testimonials__track {
+  display: flex;
+  gap: 1.5rem;
+  animation: scroll-testimonials 35s linear infinite;
+  width: max-content;
+}
+
+.testimonials__track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-testimonials {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.testimonial-card {
+  background: var(--color-white);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2rem;
+  width: 380px;
+  flex-shrink: 0;
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-color: rgba(43,92,255,0.1);
+}
+
+.testimonial-card__stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 1rem;
+  color: #ffb800; /* Strive typically uses yellow/gold for stars */
+  font-size: 1.1rem;
+}
+
+.testimonial-card__text {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.testimonial-card__text::before {
+  content: '"';
+  font-size: 3.5rem;
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  opacity: 0.15;
+  line-height: 0;
+  vertical-align: -0.3em;
+  margin-right: 0.2rem;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.testimonial-card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(43,92,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.testimonial-card__name {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.testimonial-card__role {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: 0.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+/* Trust Stats Bar */
+.trust-stats {
+  background: var(--color-primary);
+  padding: 4rem 0;
+}
+
+.trust-stats__inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.trust-stat {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.trust-stat__number {
+  font-family: var(--font-sans);
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-white);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.trust-stat__label {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.trust-stats__divider {
+  width: 1px;
+  background: rgba(255,255,255,0.15);
+  margin: 0 auto;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .trust-stats__inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .testimonials__header {
+    text-align: left;
+  }
+}

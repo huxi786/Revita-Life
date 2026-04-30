@@ -1,0 +1,190 @@
+/* ============================================
+   LOCATIONS PAGE STYLES
+   ============================================ */
+
+.locations-page {
+  padding-top: 120px; /* Offset for fixed navbar */
+  background-color: var(--color-bg);
+  min-height: calc(100vh - 400px);
+}
+
+.locations-hero {
+  padding: 4rem 0 3rem;
+  text-align: center;
+}
+
+.locations-hero__title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.locations-hero__subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.locations-list {
+  padding: 2rem 0 6rem;
+}
+
+.locations-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.location-card {
+  background: var(--color-white);
+  border-radius: var(--radius-2xl);
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.location-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.06);
+}
+
+.location-card__header {
+  background: var(--color-primary);
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-white);
+}
+
+.location-card__city {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.location-card__badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(255,255,255,0.2);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+}
+
+.location-card__body {
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.location-card__col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.location-card__col-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a0aec0;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: 0.5rem;
+}
+
+.location-card__detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.location-card__icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.location-card__link,
+.location-card__text {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  line-height: 1.6;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.location-card__link:hover {
+  color: var(--color-primary);
+}
+
+.location-card__label {
+  font-weight: 700;
+  margin-right: 0.35rem;
+  color: var(--color-text-muted);
+}
+
+.location-card__footer {
+  padding: 1.5rem 2.5rem;
+  background: #f8fafc;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.location-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-white);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.location-card__btn:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+@media (max-width: 900px) {
+  .location-card__body {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .location-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  .location-card__body,
+  .location-card__footer {
+    padding: 1.5rem;
+  }
+}
