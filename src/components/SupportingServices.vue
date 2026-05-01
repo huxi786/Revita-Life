@@ -31,7 +31,17 @@ const SLIDES = [
 ];
 
 const currentIndex = ref(0);
+const sectionRef = ref(null);
 let interval = null;
+
+const handleMouseMove = (e) => {
+  if (!sectionRef.value) return;
+  const rect = sectionRef.value.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  sectionRef.value.style.setProperty('--mouse-x', `${x}px`);
+  sectionRef.value.style.setProperty('--mouse-y', `${y}px`);
+};
 
 const nextSlide = () => {
   currentIndex.value = (currentIndex.value + 1) % SLIDES.length;
@@ -57,7 +67,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section class="supporting-services">
+  <section 
+    ref="sectionRef" 
+    class="supporting-services"
+    @mousemove="handleMouseMove"
+  >
     <div class="container">
       <div class="supporting-grid">
         <div class="supporting-image-wrapper">

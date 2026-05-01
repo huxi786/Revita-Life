@@ -1,5 +1,29 @@
 <script setup>
+import { ref } from 'vue';
+import { ChevronRight } from 'lucide-vue-next';
 import '../styles/Hero.css';
+
+const images = [
+  '/WhatsApp_Image_2026-05-01_at_12.23.06_AM-removebg-preview.png',
+  '/WhatsApp_Image_2026-05-01_at_12.23.06_AM__1_-removebg-preview.png',
+  '/WhatsApp_Image_2026-05-01_at_12.23.06_AM__2_-removebg-preview.png'
+];
+
+const cards = ref([...images]);
+const isAnimating = ref(false);
+
+const nextCard = () => {
+  if (isAnimating.value) return;
+  isAnimating.value = true;
+  
+  // The first card starts flying out immediately due to 'is-exiting' class
+  // After the animation duration, we rearrange the array
+  setTimeout(() => {
+    const first = cards.value.shift();
+    cards.value.push(first);
+    isAnimating.value = false;
+  }, 700); // Increased duration for a more premium, slower 'throw'
+};
 </script>
 
 <template>
@@ -31,13 +55,28 @@ import '../styles/Hero.css';
           </div>
         </div>
 
-        <div class="hero__image-wrapper" v-motion-slide-visible-once-right>
-          <div class="hero__image-container">
-            <img src="/WhatsApp_Image_2026-05-01_at_12.23.06_AM-removebg-preview.png" alt="Revitalife Premium Care" class="hero__main-image" />
+        <div class="hero__slider-wrapper" v-motion-slide-visible-once-right>
+          <div class="hero__stack">
+            <div 
+              v-for="(img, index) in cards" 
+              :key="img"
+              class="hero__card"
+              :class="{ 'is-exiting': index === 0 && isAnimating }"
+              :style="{ 
+                zIndex: cards.length - index,
+                transform: `translateX(${index * 25}px) translateY(${index * 15}px) rotate(${index * 2}deg) scale(${1 - index * 0.05})`,
+                opacity: 1 - index * 0.2
+              }"
+            >
+              <div class="hero__card-inner">
+                <img :src="img" alt="Revitalife Product" class="hero__card-image" />
+              </div>
+            </div>
           </div>
-          
 
-          
+          <button class="hero__slider-next" @click="nextCard" aria-label="Next Slide">
+            <ChevronRight :size="32" />
+          </button>
         </div>
       </div>
     </div>

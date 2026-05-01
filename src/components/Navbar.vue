@@ -277,21 +277,21 @@ const closeMega = () => {
                   <div class="mega-products">
                     <div class="product-card">
                       <div class="product-card__img">
-                        <img src="/WhatsApp Image 2026-05-01 at 12.23.06 AM (5).jpeg" alt="Pregnenolone Capsules" />
+                        <img src="/WhatsApp_Image_2026-05-01_at_12.23.06_AM__5_-removebg-preview.png" alt="Pregnenolone Capsules" />
                       </div>
                       <h4 class="product-card__title">Pregnenolone Capsules</h4>
                     </div>
 
                     <div class="product-card">
                       <div class="product-card__img">
-                        <img src="/WhatsApp Image 2026-05-01 at 12.23.06 AM (6).jpeg" alt="DHEA Capsule" />
+                        <img src="/WhatsApp_Image_2026-05-01_at_12.23.06_AM__6_-removebg-preview.png" alt="DHEA Capsule" />
                       </div>
                       <h4 class="product-card__title">DHEA Capsule</h4>
                     </div>
 
                     <div class="product-card">
                       <div class="product-card__img">
-                        <img src="/WhatsApp Image 2026-05-01 at 12.23.06 AM (7).jpeg" alt="Liothyronine Sodium / Levothyroxine Sodium" />
+                        <img src="/WhatsApp_Image_2026-05-01_at_12.23.06_AM__7_-removebg-preview (1).png" alt="Liothyronine Sodium / Levothyroxine Sodium" />
                       </div>
                       <h4 class="product-card__title">Liothyronine Sodium / Levothyroxine Sodium</h4>
                     </div>

@@ -1,7 +1,14 @@
 .supporting-services {
   padding: 120px 0;
-  background: #f8f9fb;
+  background-color: #ede6e0; /* Darker premium brown */
+  background-image: radial-gradient(
+    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(168, 146, 125, 0.25), 
+    transparent 45%
+  );
   overflow: hidden;
+  position: relative;
+  transition: background-color 0.3s ease;
 }
 
 .supporting-grid {

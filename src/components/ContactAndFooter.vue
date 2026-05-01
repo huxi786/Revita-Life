@@ -1,8 +1,39 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useIntersectionObserver } from '@vueuse/core';
 import { ArrowRight, Send, Phone, MapPin, Clock, Mail, Award } from 'lucide-vue-next';
 import '../styles/CtaFooter.css';
 import '../styles/Contact.css';
+
+const target = ref(null);
+const typedTitle = ref('');
+const typedSubtitle = ref('');
+const isTypingTitle = ref(false);
+const isTypingSubtitle = ref(false);
+const fullTitle = 'Ready to Experience Personalized Medicine?';
+const fullSubtitle = 'Transfer your prescription today or have your provider contact us to get started.';
+const hasStartedTyping = ref(false);
+
+const typeText = async (text, refTarget, speed = 40, flagRef = null) => {
+  if (flagRef) flagRef.value = true;
+  for (let i = 0; i < text.length; i++) {
+    refTarget.value += text[i];
+    await new Promise(resolve => setTimeout(resolve, speed));
+  }
+  if (flagRef) flagRef.value = false;
+};
+
+useIntersectionObserver(target, ([{ isIntersecting }]) => {
+  if (isIntersecting && !hasStartedTyping.value) {
+    hasStartedTyping.value = true;
+    startAnimations();
+  }
+});
+
+const startAnimations = async () => {
+  await typeText(fullTitle, typedTitle, 30, isTypingTitle);
+  await typeText(fullSubtitle, typedSubtitle, 20, isTypingSubtitle);
+};
 
 const formState = ref({
   name: '',
@@ -26,129 +57,26 @@ const handleSubmit = (e) => {
 
 <template>
   <div>
-    <!-- Contact Section -->
-    <section class="contact section-padding" id="contact">
-      <div class="container contact__container">
-        
-        <div class="contact__info" v-motion-slide-visible-once-left>
-          <span class="section-label">Get in Touch</span>
-          <h2 class="contact__title">We're Here for <span class="text-gradient-gold">You</span></h2>
-          <p class="contact__desc">
-            Whether you're a patient looking for a custom formulation or a provider needing a reliable compounding partner, our expert team is ready to assist you.
-          </p>
-
-          <div class="contact__methods">
-            <div class="contact__method">
-              <div class="contact__method-icon-wrapper">
-                <Phone class="contact__method-icon" :size="20" />
-              </div>
-              <div class="contact__method-text">
-                <h3>Call Us</h3>
-                <a href="tel:+15551234567">(555) 123-4567</a>
-              </div>
-            </div>
-
-            <div class="contact__method">
-              <div class="contact__method-icon-wrapper">
-                <Mail class="contact__method-icon" :size="20" />
-              </div>
-              <div class="contact__method-text">
-                <h3>Email</h3>
-                <a href="mailto:info@revitaliferx.com">info@revitaliferx.com</a>
-              </div>
-            </div>
-
-            <div class="contact__method">
-              <div class="contact__method-icon-wrapper">
-                <MapPin class="contact__method-icon" :size="20" />
-              </div>
-              <div class="contact__method-text">
-                <h3>Location</h3>
-                <address>123 Health Blvd, Suite 100<br/>Your City, ST 00000</address>
-              </div>
-            </div>
-
-            <div class="contact__method">
-              <div class="contact__method-icon-wrapper">
-                <Clock class="contact__method-icon" :size="20" />
-              </div>
-              <div class="contact__method-text">
-                <h3>Hours</h3>
-                <p>Mon–Fri: 9am – 6pm<br/>Sat: 10am – 2pm</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="contact__form-wrapper glass" v-motion-slide-visible-once-right>
-          <form @submit="handleSubmit" class="contact__form">
-            <h3 class="contact__form-title">Send a Message</h3>
-            
-            <div class="form-group">
-              <label for="name">Full Name</label>
-              <input 
-                type="text" 
-                id="name" 
-                v-model="formState.name" 
-                placeholder="Jane Doe" 
-                required 
-              />
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  v-model="formState.email" 
-                  placeholder="jane@example.com" 
-                  required 
-                />
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  v-model="formState.phone" 
-                  placeholder="(555) 000-0000" 
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="message">How can we help?</label>
-              <textarea 
-                id="message" 
-                rows="4" 
-                v-model="formState.message" 
-                placeholder="Please provide details about your inquiry..." 
-                required
-              ></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary contact__submit" :disabled="isSubmitting">
-              {{ isSubmitting ? 'Sending...' : 'Send Message' }} 
-              <Send v-if="!isSubmitting" :size="16" />
-            </button>
-          </form>
-        </div>
-
-      </div>
-    </section>
-
     <!-- Global CTA -->
-    <section class="cta-section">
+    <section class="cta-section" ref="target">
       <div class="container">
-        <div class="cta-section__content" v-motion-slide-visible-once-bottom>
-          <h2 class="cta-section__title">Ready to Experience Personalized Medicine?</h2>
-          <p class="cta-section__subtitle">Transfer your prescription today or have your provider contact us to get started.</p>
-          <div class="cta-section__actions">
-            <a href="#contact" class="btn btn-gold">
-              Get Started <ArrowRight :size="18" />
+        <div class="cta-section__content">
+          <h2 class="cta-section__title">{{ typedTitle }}<span class="cursor" v-if="isTypingTitle">|</span></h2>
+          <p class="cta-section__subtitle">{{ typedSubtitle }}<span class="cursor" v-if="isTypingSubtitle">|</span></p>
+          <div 
+            class="cta-section__actions"
+            v-motion
+            :initial="{ opacity: 0, y: 20 }"
+            :visible-once="{ 
+              opacity: 1, 
+              y: 0, 
+              transition: { delay: 2500, duration: 800 } 
+            }"
+          >
+            <a href="#contact" class="btn btn-gold btn-xl">
+              Get Started <ArrowRight :size="22" />
             </a>
-            <a href="tel:+15551234567" class="btn btn-outline-white">
+            <a href="tel:+15551234567" class="btn btn-outline-white btn-xl">
               Call Pharmacist
             </a>
           </div>
@@ -170,10 +98,10 @@ const handleSubmit = (e) => {
               />
             </a>
             <p class="footer__desc">
-              Precision compounding for unique healthcare needs. We collaborate with patients and providers to achieve optimal health outcomes.
+              We are a compounding pharmacy that uses state-of-the-art technology to prepare quality custom-tailored medications. Our team is dedicated to researching and developing personalized, effective solutions for your medication challenges.
             </p>
-            <div class="footer__accreditation" aria-label="PCAB Accredited">
-              <Award :size="20" class="footer__accreditation-icon" />
+            <div class="footer__accreditation">
+              <Award :size="20" class="footer__icon" />
               <span class="footer__accreditation-text">PCAB ACCREDITED PHARMACY</span>
             </div>
           </div>
@@ -181,37 +109,37 @@ const handleSubmit = (e) => {
           <div class="footer__links-group">
             <h3 class="footer__title">Quick Links</h3>
             <ul class="footer__list">
-              <li><a href="#services">Our Services</a></li>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#process">How it Works</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="#">Providers</a></li>
+              <li><a href="#">Compounded Preparations</a></li>
+              <li><a href="#">Become a Provider</a></li>
             </ul>
           </div>
 
           <div class="footer__links-group">
-            <h3 class="footer__title">Resources</h3>
+            <h3 class="footer__title">Company</h3>
             <ul class="footer__list">
-              <li><a href="#faq">Patient Resources</a></li>
-              <li><a href="#contact">Find a Provider</a></li>
+              <li><a href="#">Support</a></li>
               <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms of Service</a></li>
             </ul>
           </div>
 
           <div class="footer__contact">
-            <h3 class="footer__title">Contact</h3>
+            <h3 class="footer__title">Contact Us</h3>
             <ul class="footer__list">
               <li>
-                <MapPin :size="16" class="footer__icon" />
-                <span>123 Health Blvd, Suite 100<br/>Your City, ST 00000</span>
+                <MapPin :size="18" class="footer__icon" />
+                <span>Dubai Digital Park, Building A7 UG (Upper Ground Floor) 49 – Dubai Silicon Oasis – Dubai</span>
               </li>
               <li>
-                <Phone :size="16" class="footer__icon" />
-                <a href="tel:+15551234567">(555) 123-4567</a>
+                <Mail :size="18" class="footer__icon" />
+                <a href="mailto:info@revitalifecompoundingpharmacy.com">info@revitalifecompoundingpharmacy.com</a>
               </li>
               <li>
-                <Mail :size="16" class="footer__icon" />
-                <a href="mailto:info@revitaliferx.com">info@revitaliferx.com</a>
+                <Phone :size="18" class="footer__icon" />
+                <div style="display: flex; flex-direction: column;">
+                  <a href="tel:+97145572762">+971 4 557 2762</a>
+                  <a href="tel:+97145525032">+971 4 552 5032</a>
+                </div>
               </li>
             </ul>
           </div>
@@ -219,12 +147,18 @@ const handleSubmit = (e) => {
         </div>
 
         <div class="footer__bottom">
-          <p>&copy; {{ new Date().getFullYear() }} Revitalife Compounding Pharmacy. All rights reserved.</p>
-          <div class="footer__socials">
-            <a href="#" aria-label="Facebook">Fb</a>
-            <a href="#" aria-label="Instagram">Ig</a>
-            <a href="#" aria-label="LinkedIn">In</a>
+          <div class="footer__disclaimer">
+            <p><strong>Disclaimer:</strong> The Service will be limited to Healthcare Professionals Only and not valid for General Public.</p>
           </div>
+          <div class="footer__socials">
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="LinkedIn">IN</a>
+          </div>
+        </div>
+        
+        <div style="margin-top: 20px; text-align: center; font-size: 0.75rem; opacity: 0.5;">
+          <p>&copy; {{ new Date().getFullYear() }} Revitalife Compounding Pharmacy. All rights reserved.</p>
         </div>
       </div>
     </footer>
